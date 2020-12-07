@@ -33,10 +33,7 @@ async def gen_chlog(repo, diff):
 async def update_changelog(changelog):
     await setbot.send_sticker(Owner, random.choice(RANDOM_STICKERS))
     text = tld("update_successful")
-    text += tld("update_welcome").format(
-        USERBOT_VERSION,
-        ASSISTANT_VERSION
-    )
+    text += tld("update_welcome").format(USERBOT_VERSION, ASSISTANT_VERSION)
     text += tld("updated_changelog")
     text += changelog
     await setbot.send_message(Owner, text)
@@ -121,9 +118,7 @@ async def update_button(client, _):
         repo.git.clean("-fd", "nana/modules/")
         repo.git.clean("-fd", "nana/assistant/")
         repo.git.clean("-fd", "nana/helpers/")
-        await client.send_message(
-            Owner, tld("update_successful_force")
-        )
+        await client.send_message(Owner, tld("update_successful_force"))
     await update_changelog(changelog)
     await restart_all()
 

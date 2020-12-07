@@ -19,7 +19,7 @@ language_button_create = filters.create(language_button_callback)
 
 @setbot.on_callback_query(language_button_create)
 async def locale_button(client, query):
-    lang_match = re.findall(r"en-US|hi|he|id|fa|el|dv|es|ja|de", query.data)
+    lang_match = re.findall(r"en-US|hi|he|id|fa|el|dv|es|ja|de|ta", query.data)
     if lang_match:
         if lang_match[0]:
             switch_to_locale(Owner, lang_match[0])
@@ -54,6 +54,9 @@ async def locale_button(client, query):
             InlineKeyboardButton("🇲🇻", callback_data="set_lang_dv"),
             InlineKeyboardButton("🇪🇸", callback_data="set_lang_es"),
             InlineKeyboardButton("🇩🇪", callback_data="set_lang_de"),
+        ],
+        [
+            InlineKeyboardButton("🏴󠁩󠁮󠁴󠁮󠁿", callback_data="set_lang_ta"),
         ],
         [InlineKeyboardButton("◀️", callback_data="language_back")],
     ]
