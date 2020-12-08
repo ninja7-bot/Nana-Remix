@@ -54,6 +54,7 @@ async def get_button_settings():
                 tld("settings_setstickerbutton"), callback_data="setsticker"
             )
         ],
+        [InlineKeyboardButton("Select Branch", callback_data="change_branches")],
     ]
     return InlineKeyboardMarkup(list_button)
 

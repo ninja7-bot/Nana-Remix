@@ -5,7 +5,21 @@ from nana import logging as LOGGER
 from nana.modules.database.lang_db import prev_locale
 from nana import Owner
 
-LANGUAGES = ["en-US", "hi", "he", "id", "fa", "el", "dv", "es", "ja", "de"]
+LANGUAGES = [
+    "en-US",
+    "hi",
+    "he",
+    "id",
+    "fa",
+    "el",
+    "dv",
+    "es",
+    "ja",
+    "de",
+    "ta",
+    "pt-br",
+    "ar",
+]
 
 strings = {i: yaml.full_load(open("locales/" + i + ".yml", "r")) for i in LANGUAGES}
 
@@ -74,6 +88,24 @@ def tld(t, _show_none=True):
                 "unicode-escape",
             )
             return result
+        elif LOCALE in ("ta") and t in strings["ta"]:
+            result = decode(
+                encode(strings["ta"][t], "latin-1", "backslashreplace"),
+                "unicode-escape",
+            )
+            return result
+        elif LOCALE in ("pt-br") and t in strings["pt-br"]:
+            result = decode(
+                encode(strings["pt-br"][t], "latin-1", "backslashreplace"),
+                "unicode-escape",
+            )
+            return result
+        elif LOCALE in ("ar") and t in strings["ar"]:
+            result = decode(
+                encode(strings["ar"][t], "latin-1", "backslashreplace"),
+                "unicode-escape",
+            )
+            return result
 
     if t in strings["en-US"]:
         result = decode(
@@ -111,6 +143,12 @@ def tld_list(t):
             return strings["ja"][t]
         elif LOCALE in ("de") and t in strings["de"]:
             return strings["de"][t]
+        elif LOCALE in ("ta") and t in strings["ta"]:
+            return strings["ta"][t]
+        elif LOCALE in ("pt-br") and t in strings["pt-br"]:
+            return strings["pt-br"][t]
+        elif LOCALE in ("ar") and t in strings["ar"]:
+            return strings["ar"][t]
 
     if t in strings["en-US"]:
         return strings["en-US"][t]

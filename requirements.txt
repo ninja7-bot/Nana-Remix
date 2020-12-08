@@ -38,3 +38,5 @@ typing==3.7.4.1
 spamwatch==0.3.0
 htmlement==1.0.0
 pyYAML
+mega.py==1.0.8
+twistdl

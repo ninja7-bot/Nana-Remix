@@ -12,6 +12,8 @@ from pyrogram.types import (
 
 from platform import python_version
 
+from twistdl import TwistDL
+
 from nana import (
     setbot,
     Owner,
@@ -511,6 +513,39 @@ async def inline_query_handler(client, query):
                     input_message_content=InputTextMessageContent(
                         "**No favourites yet!**", parse_mode="markdown"
                     ),
+                )
+            )
+        await client.answer_inline_query(query.id, results=answers, cache_time=0)
+    elif string.split()[0] == "watch":
+        if len(string.split()) == 1:
+            await client.answer_inline_query(
+                query.id,
+                results=answers,
+                switch_pm_text="Search for an Anime to Watch",
+                switch_pm_parameter="help_inline",
+            )
+            return
+        c = TwistDL()
+        animes = c.search_animes(title=string.split(None, 1)[1])
+        buttons = []
+        for anime in animes:
+            for episode in anime.episodes:
+                buttons.append(
+                    [
+                        InlineKeyboardButton(
+                            f"Episode - {episode.number}",
+                            url=f"https://twist.moe/a/{anime.slug.slug}/{episode.number}",
+                        )
+                    ]
+                )
+            answers.append(
+                InlineQueryResultPhoto(
+                    photo_url=f"https://media.kitsu.io/anime/poster_images/{anime.hb_id}/large.jpg",
+                    caption=f"**Title:** {anime.title}\n **Episodes:**",
+                    title=f"{anime.title}",
+                    description=f"{len(buttons)} Episodes",
+                    reply_markup=InlineKeyboardMarkup(buttons),
+                    thumb_url=f"https://media.kitsu.io/anime/poster_images/{anime.hb_id}/small.jpg",
                 )
             )
         await client.answer_inline_query(query.id, results=answers, cache_time=0)

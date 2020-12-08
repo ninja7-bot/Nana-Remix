@@ -16,6 +16,7 @@ from nana import (
 )
 from nana.__main__ import restart_all, loop
 from nana.assistant.__main__ import dynamic_data_filter
+from nana.tr_engine.strings import tld
 
 
 async def gen_chlog(repo, diff):
@@ -31,11 +32,9 @@ async def gen_chlog(repo, diff):
 
 async def update_changelog(changelog):
     await setbot.send_sticker(Owner, random.choice(RANDOM_STICKERS))
-    text = "**Update successfully!**\n"
-    text += (
-        f"🎉 Welcome to Nana Bot v{USERBOT_VERSION} & Assistant v{ASSISTANT_VERSION}\n"
-    )
-    text += "\n──「 **Update changelogs** 」──\n"
+    text = tld("update_successful")
+    text += tld("update_welcome").format(USERBOT_VERSION, ASSISTANT_VERSION)
+    text += tld("updated_changelog")
     text += changelog
     await setbot.send_message(Owner, text)
 
@@ -74,16 +73,17 @@ async def update_checker():
 
     log.warning(f"New UPDATE available for [{brname}]!")
 
-    text = f"**New UPDATE available for [{brname}]!**\n\n"
+    text = tld("updater_available_text").format(brname)
     text += f"**CHANGELOG:**\n`{changelog}`"
     button = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("🔄 Update Now!", callback_data="update_now")]]
+        [[InlineKeyboardButton(tld("update_now_btn"), callback_data="update_now")]]
     )
     await setbot.send_message(Owner, text, reply_markup=button, parse_mode="markdown")
 
 
 @setbot.on_callback_query(dynamic_data_filter("update_now"))
-async def update_button(client, _):
+async def update_button(client, query):
+    await query.message.delete()
     await client.send_message(Owner, "Updating, please wait...")
     try:
         repo = Repo()
@@ -113,15 +113,13 @@ async def update_button(client, _):
     changelog = await gen_chlog(repo, f"HEAD..upstream/{brname}")
     try:
         upstream.pull(brname)
-        await client.send_message(Owner, "Successfully Updated!\nBot is restarting...")
+        await client.send_message(Owner, tld("update_successful"))
     except GitCommandError:
         repo.git.reset("--hard")
         repo.git.clean("-fd", "nana/modules/")
         repo.git.clean("-fd", "nana/assistant/")
         repo.git.clean("-fd", "nana/helpers/")
-        await client.send_message(
-            Owner, "Successfully Force Updated!\nBot is restarting..."
-        )
+        await client.send_message(Owner, tld("update_successful_force"))
     await update_changelog(changelog)
     await restart_all()
 

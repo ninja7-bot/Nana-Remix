@@ -74,7 +74,12 @@ async def sd_reveal(client, message):
     os.remove(a)
 
 
-@app.on_message(filters.user(AdminSettings) & filters.command("eval", Command))
+@app.on_message(
+    filters.user(AdminSettings)
+    & ~filters.forwarded
+    & ~filters.via_bot
+    & filters.command("eval", Command)
+)
 async def executor(client, message):
     try:
         cmd = message.text.split(" ", maxsplit=1)[1]
@@ -137,7 +142,12 @@ async def public_ip(_, message):
     await edrep(message, text=stats, parse_mode="markdown")
 
 
-@app.on_message(filters.user(AdminSettings) & filters.command("sh", Command))
+@app.on_message(
+    filters.user(AdminSettings)
+    & ~filters.forwarded
+    & ~filters.via_bot
+    & filters.command("sh", Command)
+)
 async def terminal(client, message):
     if len(message.text.split()) == 1:
         await edrep(message, text="Usage: `sh ping -c 5 google.com`")
