@@ -17,7 +17,7 @@ gdrive_credential_err_heroku: "Hello, Lagta hai aap Google drive me login nahi k
 adminlist_one: "**Admins {} chat ke andar**\n╒═══「 Creator 」\n"
 adminlist_two: "╞══「 {} Human Administrator 」\n"
 adminlist_three: "╞══「 {} Bot Administrator 」\n"
-adminlist_four: "\n ╘══「 Saare {} Admins 」\n"
+adminlist_four: "╘══「 Saare {} Admins 」"
 # ReportAdmins
 reportadmins_one: "{} ko admins ko report kar diya hai."
 reportadmins_two: "Admins ko {} me bula rahe hai"
