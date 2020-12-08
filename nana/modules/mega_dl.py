@@ -11,10 +11,10 @@ Download any file from URL or from telegram
 ──「 **Download mega file from URL** 」──
 -> `mega (url)`
 Give url as args to download it.
-(this is a sync module. you cannot use your userbot while mega is downloading a file)
-──「 **List Downloaded** 」──
--> `megafile`
-List of file that have downloaded with mega.
+
+**Note**
+this is a sync module. you cannot use your userbot while mega is downloading a file
+For now folders are not supported yet
 """
 
 
@@ -38,20 +38,3 @@ async def mega_download(_, message):
         await message.reply_document(doc)
         os.remove(doc)
     await message.delete()
-
-
-@app.on_message(filters.me & filters.command(["megafile"], Command))
-async def mega_downloaded_file(_, message):
-    filelist = os.listdir("nana/downloads/mega")
-    print(len(filelist))
-    if len(filelist) == 0:
-        await edrep(
-            message,
-            text="You haven't download any files with mega! try to download something",
-        )
-        return
-    listoffile = "List of file downloaded with mega: \n`"
-    for i in range(len(filelist)):
-        listoffile += filelist[i] + "\n"
-    listoffile += "`"
-    await edrep(message, text=listoffile)
