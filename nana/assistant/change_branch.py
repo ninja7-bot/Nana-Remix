@@ -47,8 +47,9 @@ async def change_to_branch(client, query):
             await query.message.edit(f'**ERROR**: {exc}')
             return
         await create_subprocess_exec("pip3", "install", "-U", "-r", "requirements.txt")
+        await query.message.edit("Branch Changed to {}\nThis will take around 1 minute or more\nplease consider checking the logs".format(repo.active_branch))
+        await query.answer()
         await sleep(60)
         await restart_all()
-        await query.message.edit("Branch Changed to {}\nThis will take around 1 minute or more\nplease consider checking the logs".format(repo.active_branch))
     else:
         await query.answer("Doesnt look like an Official Branch, Aborting!")
