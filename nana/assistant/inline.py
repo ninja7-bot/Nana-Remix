@@ -528,7 +528,6 @@ async def inline_query_handler(client, query):
         c = TwistDL()
         animes = c.search_animes(title=string.split(None, 1)[1])
         buttons = []
-        keyboard = InlineKeyboardMarkup(buttons)
         for anime in animes:
             for episode in anime.episodes:
                 buttons.append(
@@ -542,10 +541,12 @@ async def inline_query_handler(client, query):
             answers.append(
                 InlineQueryResultPhoto(
                     photo_url=f"https://media.kitsu.io/anime/poster_images/{anime.hb_id}/large.jpg",
-                    caption=f"{anime.title}",
+                    caption=f"**Title:** {anime.title}\n **Episodes:**",
                     title=f"{anime.title}",
                     description=f"{len(buttons)} Episodes",
-                    reply_markup=InlineKeyboardMarkup(keyboard),
+                    reply_markup=InlineKeyboardMarkup(buttons),
+                    thumb_url=f"https://media.kitsu.io/anime/poster_images/{anime.hb_id}/small.jpg"
                 )
             )
+        await client.answer_inline_query(query.id, results=answers, cache_time=0)
         return
