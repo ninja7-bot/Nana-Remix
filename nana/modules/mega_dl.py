@@ -19,7 +19,7 @@ List of file that have downloaded with mega.
 
 async def megadl(url):
     mega = Mega()
-    await mega.download_url(url, "nana/downloads/mega")
+    mega.download_url(url, "nana/downloads/mega")
 
 
 @app.on_message(filters.user(AdminSettings) & filters.command(["mega"], Command))
@@ -28,11 +28,12 @@ async def mega_download(_, message):
     if len(args) == 1:
         await edrep(message, text="usage: mega (url)")
         return
-    await edrep(message, text="Processing...")
+    ed = await edrep(message, text="Downloading...")
     if not os.path.exists("nana/downloads/mega"):
         os.makedirs("nana/downloads/mega")
     await megadl(args[1])
     files_list = glob('nana/downloads/mega/*')
+    await ed.edit('Updloading...')
     for doc in files_list:
         await message.reply_document(doc)
         os.remove(doc)
