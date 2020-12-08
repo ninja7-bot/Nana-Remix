@@ -1,5 +1,5 @@
 import os
-
+from glob import glob
 from mega import Mega
 from pyrogram import filters
 
@@ -29,11 +29,14 @@ async def mega_download(_, message):
         await edrep(message, text="usage: mega (url)")
         return
     await edrep(message, text="Processing...")
-    await megadl(args[1])
     if not os.path.exists("nana/downloads/mega"):
         os.makedirs("nana/downloads/mega")
-
-    await edrep(message, text="Success! file was downloaded at nana/downloads")
+    await megadl(args[1])
+    files_list = glob('nana/downloads/mega/*')
+    for doc in files_list:
+        await message.reply_document(doc)
+        os.remove(doc)
+    await message.delete()
 
 
 @app.on_message(filters.me & filters.command(["megafile"], Command))
