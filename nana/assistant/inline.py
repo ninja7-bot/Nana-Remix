@@ -545,7 +545,7 @@ async def inline_query_handler(client, query):
                     title=f"{anime.title}",
                     description=f"{len(buttons)} Episodes",
                     reply_markup=InlineKeyboardMarkup(buttons),
-                    thumb_url=f"https://media.kitsu.io/anime/poster_images/{anime.hb_id}/small.jpg"
+                    thumb_url=f"https://media.kitsu.io/anime/poster_images/{anime.hb_id}/small.jpg",
                 )
             )
         await client.answer_inline_query(query.id, results=answers, cache_time=0)

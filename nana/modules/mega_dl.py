@@ -33,7 +33,7 @@ async def mega_download(_, message):
     if not os.path.exists("nana/downloads/mega"):
         os.makedirs("nana/downloads/mega")
     await megadl(args[1])
-    files_list = glob('nana/downloads/mega/*')
+    files_list = glob("nana/downloads/mega/*")
     for doc in files_list:
         await message.reply_document(doc)
         os.remove(doc)
