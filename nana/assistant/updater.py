@@ -82,7 +82,8 @@ async def update_checker():
 
 
 @setbot.on_callback_query(dynamic_data_filter("update_now"))
-async def update_button(client, _):
+async def update_button(client, query):
+    await query.message.delete()
     await client.send_message(Owner, "Updating, please wait...")
     try:
         repo = Repo()
