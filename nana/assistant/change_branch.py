@@ -20,7 +20,9 @@ async def chng_branch(client, query):
         for r in repo.branches
     ]
     if NANA_IMG:
-        await query.message.edit_caption("Which Branch would you like to change to?\n(this might break your userbot if you are not cautious of what you are doing)"),
+        await query.message.edit_caption(
+            "Which Branch would you like to change to?\n(this might break your userbot if you are not cautious of what you are doing)"
+        ),
         await query.message.edit_reply_markup(InlineKeyboardMarkup(buttons))
     else:
         await query.message.edit(
@@ -44,10 +46,14 @@ async def change_to_branch(client, query):
         try:
             repo.git.checkout(branch_match[0])
         except GitCommandError as exc:
-            await query.message.edit(f'**ERROR**: {exc}')
+            await query.message.edit(f"**ERROR**: {exc}")
             return
         await create_subprocess_exec("pip3", "install", "-U", "-r", "requirements.txt")
-        await query.message.edit("Branch Changed to {}\nThis will take around 1 minute or more\nplease consider checking the logs".format(repo.active_branch))
+        await query.message.edit(
+            "Branch Changed to {}\nThis will take around 1 minute or more\nplease consider checking the logs".format(
+                repo.active_branch
+            )
+        )
         await query.answer()
         await sleep(60)
         await restart_all()
